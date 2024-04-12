@@ -11,7 +11,7 @@ import { Canvas } from 'react-three-fiber';
 import Navbar from '../components/Navbar';
 
 
-export default function Home() {
+const Home = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -110,3 +110,4 @@ export default function Home() {
     </SessionProvider>
   );
 }
+export default Home;
