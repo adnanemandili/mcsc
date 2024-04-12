@@ -1,0 +1,29 @@
+# Node.js
+node_modules/
+
+# Next.js
+.next/
+
+# macOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Log files
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Build files
+/build/
+/out/
+
+# Temporary files
+.tmp/
+
+# Dependency directories
+jspm_packages/
+bower_components/
