@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const baseurl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+const baseurl = process.env.NEXTAUTH_URL;
 const redirectUrl = `${baseurl}/register`;
 
 // const handleClick = signIn("github");
