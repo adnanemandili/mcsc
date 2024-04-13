@@ -1,3 +1,5 @@
+import { fetchAndStoreUserData } from '@/app/userData';
+import { fetchUserDataFromDB } from '@/app/userDataFromDb';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -16,6 +18,30 @@ function generateSerialNumber() {
 const Ticket = () => {
     const { data: session, status } = useSession();
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+      // Add a listener for changes to the screen size
+      const mediaQuery = window.matchMedia("(max-width: 900px)");
+  
+      // Set the initial value of the `isMobile` state variable
+      setIsMobile(mediaQuery.matches);
+  
+      // Define a callback function to handle changes to the media query
+      const handleMediaQueryChange = (event: { matches: boolean | ((prevState: boolean) => boolean); }) => {
+        setIsMobile(event.matches);
+      };
+  
+      // Add the callback function as a listener for changes to the media query
+      mediaQuery.addEventListener("change", handleMediaQueryChange);
+  
+      // Remove the listener when the component is unmounted
+      return () => {
+        mediaQuery.removeEventListener("change", handleMediaQueryChange);
+      };
+    }, []);
+
+
     const [user, setUser] = useState({
         name: '',
         login: '',
@@ -33,7 +59,16 @@ const Ticket = () => {
             });
           if (userRes.ok) {
             const userData = await userRes.json();
-            setUser(userData);
+
+            const existingUserData = await fetchUserDataFromDB(userData.login);
+            if (!existingUserData) {
+              // Si l'utilisateur n'existe pas, ajoutez-le à la base de données
+              await fetchAndStoreUserData(userData);
+            }
+            // Utilisez les informations utilisateur (existingUserData ou userData)
+            setUser(existingUserData || userData);
+
+            // setUser(userData);
           } else {
             console.error('Failed to fetch user data:', userRes.statusText);
           }
@@ -50,7 +85,39 @@ const Ticket = () => {
     if(status === "authenticated"){
         const serialNumber = generateSerialNumber();
         return (
-            <div className="shrink-0 mt-4 relative pt-8">
+          <>
+            {isMobile ? (
+              <div className="shrink-0 mt-4 relative pt-8">
+              <Image
+                  src="/Asset 1.png"
+                  alt="Ticket"
+                  width={350}//900
+                  height={150}//250
+                  className='drop-shadow-[0_0px_5px_rgba(0,255,65,0.3)]'
+              />
+              <div className="shrink-0 m-7 z-11 absolute top-[25px] p-10 left-[53px] flex flex-col justify-between items-start">
+                  <code className="text-[10px] font-semibold text-center text-white pb-1">
+                  {session?.user?.name}
+                  </code>
+                  <code className=" text-[8px] text-center text-white">
+                  {user?.login}
+                  </code>
+              </div>
+              <div className="shrink-0 mt-3 z-11  absolute top-12 pt-10 left-[39px] rounded-full">
+                  <Image
+                  src={session?.user?.image}
+                  width={57}
+                  height={57}
+                  alt='Profile Picture'
+                  className='rounded-full scale-125'
+                  />
+              </div>
+              <div className="z-10 absolute bottom-[12px] left-[280px] p-6 flex flex-col justify-center items-center">
+                  <code className='text-[8px] -rotate-90 opacity-50'>#{serialNumber}</code>
+              </div>
+            </div>
+            ):(
+              <div className="shrink-0 mt-4 relative pt-8">
                 <Image
                     src="/Asset 1.png"
                     alt="Ticket"
@@ -69,8 +136,8 @@ const Ticket = () => {
                 <div className="shrink-0 mt-4 z-10 absolute top-44 pt-3 left-24 rounded-full">
                     <Image
                     src={session?.user?.image}
-                    width={80}
-                    height={80}
+                    width={150}
+                    height={150}
                     alt='Profile Picture'
                     className='rounded-full scale-125'
                     />
@@ -78,38 +145,12 @@ const Ticket = () => {
                 <div className="z-10 absolute bottom-14 right-0 pl-18 flex flex-col justify-center items-center">
                     <code className='pt-24 -rotate-90 opacity-50'>#{serialNumber}</code>
                 </div>
-            </div>
+              </div>
+            )}
+          </>
         );
       //   return (
-      //     <div className="shrink-0 mt-4 relative pt-8">
-      //         <Image
-      //             src="/Asset 1.png"
-      //             alt="Ticket"
-      //             width={350}//900
-      //             height={150}//250
-      //             className='drop-shadow-[0_0px_5px_rgba(0,255,65,0.3)]'
-      //         />
-      //         <div className="shrink-0 m-7 z-11 absolute top-10 p-10 left-12 flex flex-col justify-between items-start">
-      //             <code className="text-xs font-semibold text-center text-white pb-1">
-      //             {session?.user?.name}
-      //             </code>
-      //             <code className=" text-xs text-center text-white">
-      //             {user?.login}
-      //             </code>
-      //         </div>
-      //         <div className="shrink-0 mt-3 z-11  absolute top-12 pt-10 left-10 rounded-full">
-      //             <Image
-      //             src={session?.user?.image}
-      //             width={55}
-      //             height={55}
-      //             alt='Profile Picture'
-      //             className='rounded-full scale-125'
-      //             />
-      //         </div>
-      //         <div className="z-10 absolute bottom-6 left-9 p-6 flex flex-col justify-center items-center">
-      //             <code className='text-[8px] -rotate-90 opacity-50'>#{serialNumber}</code>
-      //         </div>
-      //     </div>
+          
       // );
     }
 
@@ -118,8 +159,8 @@ const Ticket = () => {
         <Image
             src="/Asset 1.png"
             alt="Ticket"
-            width={900}
-            height={250}
+            width={isMobile? 350 : 900}//350
+            height={isMobile? 250 : 150}//150
             className='drop-shadow-[0_0px_5px_rgba(0,255,65,0.3)]'
         />
         </div>
