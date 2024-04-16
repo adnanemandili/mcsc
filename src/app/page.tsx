@@ -96,13 +96,15 @@ const Home = () => {
                 width={isMobile? 300: 600} //600
                 height={isMobile? 200: 500} //500
                 priority
-                className='pt-44'
+                className={`${isMobile ? 'pt-10' :'pt-44'}`}//10
               />
       </div>
-      <div id="timeline" className="flex min-h-screen flex-col items-center justify-between p-20">
+      {/*p-20*/}
+      <div id="timeline" className={`${isMobile ? "flex min-h-screen flex-col items-center justify-between p-4": "flex min-h-screen flex-col items-center justify-between p-20"}`}> 
         <Timeline />
       </div>
-      <div id="faq" className="flex min-h-screen flex-col items-center justify-between p-20">
+      {/*p-20*/}
+      <div id="faq" className={`${isMobile ? "flex min-h-screen flex-col items-center justify-between p-10": "flex min-h-screen flex-col items-center justify-between p-20"}`}>
         <FAQ />
       </div>
       <Footer/>

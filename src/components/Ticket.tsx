@@ -97,7 +97,7 @@ const Ticket = () => {
               />
               <div className="shrink-0 m-7 z-11 absolute top-[25px] p-10 left-[53px] flex flex-col justify-between items-start">
                   <code className="text-[10px] font-semibold text-center text-white pb-1">
-                  {session?.user?.name}
+                  {user?.name}
                   </code>
                   <code className=" text-[8px] text-center text-white">
                   {user?.login}
@@ -105,7 +105,7 @@ const Ticket = () => {
               </div>
               <div className="shrink-0 mt-3 z-11  absolute top-12 pt-10 left-[39px] rounded-full">
                   <Image
-                  src={session?.user?.image}
+                  src={user?.avatar_url}
                   width={57}
                   height={57}
                   alt='Profile Picture'
@@ -127,7 +127,7 @@ const Ticket = () => {
                 />
                 <div className="shrink-0 mt-4 z-10 absolute top-44 left-80 flex flex-col justify-between items-start">
                     <code className="text-2xl font-semibold text-center text-white pb-1">
-                    {session?.user?.name}
+                    {user?.name}
                     </code>
                     <code className="text-xl text-center text-white">
                     {user?.login}
@@ -135,7 +135,7 @@ const Ticket = () => {
                 </div>
                 <div className="shrink-0 mt-4 z-10 absolute top-44 pt-3 left-24 rounded-full">
                     <Image
-                    src={session?.user?.image}
+                    src={user?.avatar_url}
                     width={150}
                     height={150}
                     alt='Profile Picture'

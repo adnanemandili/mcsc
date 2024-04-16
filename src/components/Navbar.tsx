@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface NavbarItem {
     item: string;
@@ -18,9 +18,32 @@ const navbarItems: NavbarItem[] = [
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Add a listener for changes to the screen size
+    const mediaQuery = window.matchMedia("(max-width: 900px)");
+
+    // Set the initial value of the `isMobile` state variable
+    setIsMobile(mediaQuery.matches);
+
+    // Define a callback function to handle changes to the media query
+    const handleMediaQueryChange = (event: { matches: boolean | ((prevState: boolean) => boolean); }) => {
+      setIsMobile(event.matches);
+    };
+
+    // Add the callback function as a listener for changes to the media query
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    // Remove the listener when the component is unmounted
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    };
+  }, []);
     return (
         <div className="left-0 top-0 w-full bg-black p-4 lg:static lg:w-auto flex items-center justify-between pl-20">
-            <div className='px-0 pt-2 flex flex-row justify-center items-center'>
+            {/* absolute left-[10px] top-[15px] bottom-[15px] ml-[12px] pl-0 pt-[2px] flex flex-row justify-center items-center */}
+            <div className={`${isMobile ? "absolute left-[10px] top-[15px] bottom-[15px] ml-[12px] pl-0 pt-[2px] flex flex-row justify-center items-center" : "px-0 pt-2 flex flex-row justify-center items-center"} `}>
                 <div className="pl-0">
                     <Image
                         src="/mcsc.png"
