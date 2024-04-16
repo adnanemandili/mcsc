@@ -8,6 +8,7 @@ import Ticket from '@/components/Ticket';
 import { SessionProvider } from 'next-auth/react';
 import Image from 'next/image';
 import { Canvas } from 'react-three-fiber';
+import envConfig from '../../../../env-config';
 
 
 function generateSerialNumber() {
@@ -22,12 +23,14 @@ function generateSerialNumber() {
     return serialNumber;
 }
 
+// const baseurl= envConfig.NEXTAUTH_URL;
+const url = `https://mcsc-e797.vercel.app/register/me`;
+
 export default function Home() {
 
     const NUM= generateSerialNumber();
 
-    const baseurl = process.env.NEXTAUTH_URL;
-    const url = `${baseurl}/register/me#${NUM}`;
+    const URL=url+'#'+NUM;
 
     return (
     <div className='bg-black'>
@@ -49,7 +52,7 @@ export default function Home() {
                 />
         </div>
         <SessionProvider>
-            <ShareActions shareUrl={url}/>
+            <ShareActions shareUrl={URL}/>
         <Ticket/>
         </SessionProvider>
     </div>
