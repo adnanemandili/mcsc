@@ -2,6 +2,7 @@
 import Footer from '@/components/Footer';
 import { GithubButton } from '@/components/GithubButton';
 import Navbar from '@/components/Navbar';
+import SharingButton from '@/components/SharingButton';
 import SpaceParticles from '@/components/SpaceParticles';
 import Ticket from '@/components/Ticket';
 import { SessionProvider, useSession } from 'next-auth/react';
@@ -33,6 +34,7 @@ export default function Home() {
         </div>
         <GithubButton/>
         <SessionProvider>
+        <SharingButton/>
         <Ticket/>
         </SessionProvider>
     </div>

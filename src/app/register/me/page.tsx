@@ -48,7 +48,6 @@ export default function Home() {
                 height={100}
                 />
         </div>
-        {<GithubButton/>}
         <SessionProvider>
             <ShareActions shareUrl={url || "https://localhost:3000"}/>
         <Ticket/>
