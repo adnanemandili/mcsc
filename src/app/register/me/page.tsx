@@ -8,7 +8,7 @@ import Ticket from '@/components/Ticket';
 import { SessionProvider } from 'next-auth/react';
 import Image from 'next/image';
 import { Canvas } from 'react-three-fiber';
-import envConfig from '../../../../env-config';
+
 
 
 function generateSerialNumber() {
