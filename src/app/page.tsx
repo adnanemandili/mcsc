@@ -9,6 +9,8 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { Canvas } from 'react-three-fiber';
 import Navbar from '../components/Navbar';
+import Partners from '@/components/Partners';
+import Sponsors from '@/components/Sponsors';
 
 
 const Home = () => {
@@ -102,6 +104,12 @@ const Home = () => {
       {/*p-20*/}
       <div id="timeline" className={`${isMobile ? "flex min-h-screen flex-col items-center justify-between p-4": "flex min-h-screen flex-col items-center justify-between p-20"}`}> 
         <Timeline />
+      </div>
+      <div id="partners" className={`${isMobile ? "flex min-h-screen flex-col items-center justify-between p-10": "flex min-h-screen flex-col items-center justify-between p-20"}`}>
+        <Partners />
+      </div>
+      <div id="sponsors" className={`${isMobile ? "flex min-h-screen flex-col items-center justify-between p-10": "flex min-h-screen flex-col items-center justify-between p-20"}`}>
+        <Sponsors />
       </div>
       {/*p-20*/}
       <div id="faq" className={`${isMobile ? "flex min-h-screen flex-col items-center justify-between p-10": "flex min-h-screen flex-col items-center justify-between p-20"}`}>
